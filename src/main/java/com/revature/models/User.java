@@ -7,8 +7,10 @@ public class User {
 	private int type;
 	private String username;
 	private String password;
+	private int idNumber;
 	
 	public User() {
+		this.idNumber = 0;
 		this.FN = null;
 		this.LN = null;
 		this.type = 0;
@@ -16,49 +18,66 @@ public class User {
 		this.password = null;
 	}
 	
-	public User(String f, String l, int t)
-	{
-		this.FN = f;
-		this.LN = l;
-		this.type = t;
-		this.username = null;
-		this.password = null;
-	}
-	
-	public User(String f, String l, int t, String u, String p)
-	{
-		this.FN = f;
-		this.LN = l;
-		this.type = t;
+	public User(String u, String p) {
+		this.idNumber = 0;
+		this.FN = null;
+		this.LN = null;
+		this.type = 0;		
 		this.username = u;
 		this.password = p;
 	}
 	
-	
-	/** robust getters  **/
-	
-	// return full name
-	public String getName() {
-		return FN.concat(" "+LN);
+
+	public String getFN() {
+		return FN;
 	}
-	
-	// return type of user
+
+	public String getLN() {
+		return LN;
+	}
+
 	public int getType() {
 		return type;
 	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
 	
-	// return username & password combo
-	public String getCredentials() {
-		return username.concat(password);
+	public int getIdNumber() {
+		return idNumber;
+	}
+
+	public void setFN(String fN) {
+		FN = fN;
+	}
+
+	public void setLN(String lN) {
+		LN = lN;
+	}
+
+	public void setType(int type) {
+		this.type = type;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
+	public void setIdNumber(int i) {
+		this.idNumber = i;
 	}
 	
 	
-	public boolean setCredentials(String u, String p)
-	{
-		this.username = u;
-		this.password = p;
-		return true;
-	}
+
 	
 
 }
