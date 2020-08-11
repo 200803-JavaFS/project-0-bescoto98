@@ -18,29 +18,19 @@ public class UserDAO {
 		User temp = new User(u,p);
 		
 		try {
-//			getConnection
-			String sql = "select idnum from logins where username=? AND password=?";
+			//get connection from utilities
+			String sql = "select users.FN, users.LN, users.type, users.idnum from users left join logins on users.idnum = logins.idnum where username=? AND password =?";
 			st = con.prepareStatement(sql);
 			
 			st.setString(1, u);
 			st.setString(2, p);
-	
-			// return idnum from username & password
+			
 			ResultSet result = st.executeQuery();
-		
-			temp.setIdNumber(result.getInt("idnum"));
-			
-			sql = "select * from users where idnum=?";
-			
-			st = con.prepareStatement(sql);
-			st.setInt(1, temp.getIdNumber());
-			
-			result = st.executeQuery();
 			
 			temp.setFN(result.getString("FN"));
 			temp.setLN(result.getString("LN"));
 			temp.setType(result.getInt("type"));
-			
+			temp.setIdNumber(result.getInt("idnum"));
 			
 		} catch(SQLException e) {
 			e.printStackTrace();
