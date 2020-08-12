@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.revature.models.*;
 
@@ -40,6 +42,30 @@ public class UserDAO {
 		}
 		
 		return temp;
+	}
+	
+	
+	public List<User> getAllCustomers(){
+		List<User> customers = new ArrayList<>();
+		
+		try {
+			
+			String sql = "select * from users where type=?"; //whatever the type is for customers
+			User temp = new User();
+			
+//			temp.setFN();
+			// and so on
+			
+			customers.add(temp);
+			
+		} catch(SQLException e) {
+			e.printStackTrace();
+		} finally {
+//			closeResources();
+			System.out.println("close resources");
+		}
+		
+		return customers;
 	}
 	
 	

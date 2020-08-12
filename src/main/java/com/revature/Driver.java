@@ -4,7 +4,12 @@ import java.util.Scanner;
 import com.revature.dao.*;
 import com.revature.models.*;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class Driver {
+	
+	private static final Logger log = LogManager.getLogger(Driver.class);
 
 	public static void main(String[] args) {
 		
@@ -13,15 +18,35 @@ public class Driver {
 		System.out.println("Welcome 2 da bank");
 		System.out.println("+-------------------------------------+\n");
 		
-		System.out.println("Enter username:\n+- ");
-		String username = inputs.nextLine();
+		System.out.println("Are you a (1) New Customer, (2) Returning Customer, (3) Employee, or (4) Admin?\n +- ");
 		
-		System.out.println("Enter password:\n+- ");
-		String password = inputs.nextLine();
+		//send to either CustomerCreation, CustomerUtilities, EmployeeUtilities, or AdminUtilities
+		int userType = inputs.nextInt();
 		
-		System.out.println("Username: " + username + " Password: " + password);
+		switch (userType) {
+			case 1:
+				
+				break;
+			case 2:
+				break;
+			case 3:
+				break;
+			case 4:
+				break;
+			default:
+				System.out.println("This is not a valid input :<");
+				log.error("set up loop");
+		}
 		
-		get logger
+//		System.out.println("Enter username:\n+- ");
+//		String username = inputs.nextLine();
+//		
+//		System.out.println("Enter password:\n+- ");
+//		String password = inputs.nextLine();
+//		
+//		log.info("Username: " + username + " Password: " + password);
+		
+		
 		
 		// get type
 		
@@ -32,15 +57,15 @@ public class Driver {
 	}
 	
 	private void printCustomerMenu() {
-		System.out.println("user");
+		log.info("user");
 	}
 	
 	private void printEmployeeMenu() {
-		System.out.println("employee");
+		log.info("employee");
 	}
 	
 	private void printAdminMenu() {
-		System.out.println("admin");
+		log.info("admin");
 		
 	}
 

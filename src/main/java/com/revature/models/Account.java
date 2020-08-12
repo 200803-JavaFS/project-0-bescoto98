@@ -9,6 +9,7 @@ public class Account {
 	private int accountNum;
 	private double balance;
 	private int idNumber;
+	private String acctType;
 	
 	public Account() {
 		this.FN = null;
@@ -66,6 +67,14 @@ public class Account {
 
 	public int getIdNumber() {
 		return idNumber;
+	}
+	
+	public String getAcctType() {
+		return acctType;
+	}
+	
+	public void setAcctType(String a) {
+		this.acctType = a;
 	}
 
 	public void setFN(String fN) {

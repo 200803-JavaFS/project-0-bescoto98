@@ -36,6 +36,7 @@ public class AccountDAO {
 			temp.setAccountNum(result.getInt("acctid"));
 			temp.setBalance(result.getInt("balance"));
 			temp.setIdNumber(result.getInt("idnum"));
+			temp.setAcctType(result.getString("type"));
 			
 		} catch(SQLException e) {
 			e.printStackTrace();
