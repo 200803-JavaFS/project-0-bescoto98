@@ -48,22 +48,22 @@ public class UserDAO {
 	public List<User> getAllCustomers(){
 		List<User> customers = new ArrayList<>();
 		
-		try {
-			
-			String sql = "select * from users where type=?"; //whatever the type is for customers
-			User temp = new User();
-			
-//			temp.setFN();
-			// and so on
-			
-			customers.add(temp);
-			
-		} catch(SQLException e) {
-			e.printStackTrace();
-		} finally {
-//			closeResources();
-			System.out.println("close resources");
-		}
+//		try {
+//			
+//			String sql = "select * from users where type=?"; //whatever the type is for customers
+//			User temp = new User();
+//			
+////			temp.setFN();
+//			// and so on
+//			
+//			customers.add(temp);
+//			
+//		} catch(SQLException e) {
+//			e.printStackTrace();
+//		} finally {
+////			closeResources();
+//			System.out.println("close resources");
+//		}
 		
 		return customers;
 	}

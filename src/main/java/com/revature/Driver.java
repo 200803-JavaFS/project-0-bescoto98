@@ -1,8 +1,7 @@
 package com.revature;
 
 import java.util.Scanner;
-import com.revature.dao.*;
-import com.revature.models.*;
+import com.revature.services.*;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -25,13 +24,23 @@ public class Driver {
 		
 		switch (userType) {
 			case 1:
+				CustomerCreation s = new CustomerCreation();
+				// display menu
+				break;
 				
-				break;
 			case 2:
+				CustomerServices r = new CustomerServices();
+				// send there
 				break;
+				
 			case 3:
+				EmployeeServices e = new EmployeeServices();
+				// send there
 				break;
+				
 			case 4:
+				AdminServices a = new AdminServices();
+				// send there
 				break;
 			default:
 				System.out.println("This is not a valid input :<");

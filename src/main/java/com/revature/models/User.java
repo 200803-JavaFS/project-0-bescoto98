@@ -13,7 +13,7 @@ public class User {
 		this.idNumber = 0;
 		this.FN = null;
 		this.LN = null;
-		this.type = 0;
+		this.type = 4;
 		this.username = null;
 		this.password = null;
 	}
@@ -22,7 +22,7 @@ public class User {
 		this.idNumber = 0;
 		this.FN = null;
 		this.LN = null;
-		this.type = 0;		
+		this.type = 4;		
 		this.username = u;
 		this.password = p;
 	}
