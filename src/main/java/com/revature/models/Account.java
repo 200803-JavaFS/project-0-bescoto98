@@ -1,110 +1,183 @@
 package com.revature.models;
 
-public class Account {
+import java.io.Serializable;
+
+public class Account implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 	
-	private String FN;
-	private String LN;
-	private String username;
-	private String password;
-	private int accountNum;
+	private int accountID;
 	private double balance;
-	private int idNumber;
-	private String acctType;
+	private String type;
+	private String status;
+	private String approvedBy;
+	private String createdOn;
 	
 	public Account() {
-		this.FN = null;
-		this.LN = null;
-		this.username = null;
-		this.password = null;
-		this.accountNum = 0;
-		this.balance = 0;
-		this.idNumber = 0;
+		super();
 	}
 	
-	public Account(int id) {
-		this.idNumber = id;
-		this.FN = null;
-		this.LN = null;
-		this.username = null;
-		this.password = null;
-		this.accountNum = 0;
-		this.balance = 0;
-	}
 	
-	public Account(String u, String p) {
-		this.username = u;
-		this.password = p;
-		this.accountNum = 0;
-		this.balance = 0;
-		this.FN = null;
-		this.LN = null;
-		this.idNumber = 0;
+
+	public Account(double balance, String type, String status, String approvedBy, String createdOn) {
+		super();
+		this.balance = balance;
+		this.type = type;
+		this.status = status;
+		this.approvedBy = approvedBy;
+		this.createdOn = createdOn;
 	}
 
-	public String getFN() {
-		return FN;
+
+
+	public Account(int accountID, double balance, String type, String status, String approvedBy, String createdOn) {
+		super();
+		this.accountID = accountID;
+		this.balance = balance;
+		this.type = type;
+		this.status = status;
+		this.approvedBy = approvedBy;
+		this.createdOn = createdOn;
 	}
 
-	public String getLN() {
-		return LN;
+
+
+	public int getAccountID() {
+		return accountID;
 	}
 
-	public String getUsername() {
-		return username;
-	}
 
-	public String getPassword() {
-		return password;
-	}
-
-	public int getAccountNum() {
-		return accountNum;
-	}
 
 	public double getBalance() {
 		return balance;
 	}
 
-	public int getIdNumber() {
-		return idNumber;
-	}
-	
-	public String getAcctType() {
-		return acctType;
-	}
-	
-	public void setAcctType(String a) {
-		this.acctType = a;
+
+
+	public String getType() {
+		return type;
 	}
 
-	public void setFN(String fN) {
-		FN = fN;
+
+
+	public String getStatus() {
+		return status;
 	}
 
-	public void setLN(String lN) {
-		LN = lN;
+
+
+	public String getApprovedBy() {
+		return approvedBy;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+
+
+	public String getCreatedOn() {
+		return createdOn;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
+
+
+	public void setAccountID(int accountID) {
+		this.accountID = accountID;
 	}
 
-	public void setAccountNum(int accountNum) {
-		this.accountNum = accountNum;
-	}
+
 
 	public void setBalance(double balance) {
 		this.balance = balance;
 	}
 
-	public void setIdNumber(int idNumber) {
-		this.idNumber = idNumber;
+
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+
+
+	public void setApprovedBy(String approvedBy) {
+		this.approvedBy = approvedBy;
+	}
+
+
+
+	public void setCreatedOn(String createdOn) {
+		this.createdOn = createdOn;
+	}
+
+
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + accountID;
+		result = prime * result + ((approvedBy == null) ? 0 : approvedBy.hashCode());
+		long temp;
+		temp = Double.doubleToLongBits(balance);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + ((createdOn == null) ? 0 : createdOn.hashCode());
+		result = prime * result + ((status == null) ? 0 : status.hashCode());
+		result = prime * result + ((type == null) ? 0 : type.hashCode());
+		return result;
+	}
+
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Account other = (Account) obj;
+		if (accountID != other.accountID)
+			return false;
+		if (approvedBy == null) {
+			if (other.approvedBy != null)
+				return false;
+		} else if (!approvedBy.equals(other.approvedBy))
+			return false;
+		if (Double.doubleToLongBits(balance) != Double.doubleToLongBits(other.balance))
+			return false;
+		if (createdOn == null) {
+			if (other.createdOn != null)
+				return false;
+		} else if (!createdOn.equals(other.createdOn))
+			return false;
+		if (status == null) {
+			if (other.status != null)
+				return false;
+		} else if (!status.equals(other.status))
+			return false;
+		if (type == null) {
+			if (other.type != null)
+				return false;
+		} else if (!type.equals(other.type))
+			return false;
+		return true;
+	}
+
+
+
+	@Override
+	public String toString() {
+		return "Account [accountID=" + accountID + ", balance=" + balance + ", type=" + type + ", status=" + status
+				+ ", approvedBy=" + approvedBy + ", createdOn=" + createdOn + "]";
 	}
 	
 	
-
+	
+	
+	
+	
 }
