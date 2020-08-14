@@ -15,8 +15,6 @@ import com.revature.utilities.ConnectionUtility;
 
 public class UserDAO implements IUserDAO {
 	
-	
-
 	@Override
 	public List<User> findAll() {
 		
@@ -56,7 +54,7 @@ public class UserDAO implements IUserDAO {
 	}
 
 	@Override
-	public User findByUserID(int id) {
+	public User findUser(int id) {
 		try(Connection conn = ConnectionUtility.getConnection()){
 			
 			String sql = "select * from users where u_id = " + id + ";";
@@ -87,18 +85,61 @@ public class UserDAO implements IUserDAO {
 	}
 
 	@Override
-	public boolean addUser(User u) {
+	public User findUser(String username) {
+		return findUser(findUserID(username));
+	}
+	
+	@Override
+	public int findUserID(String username) {
 		try(Connection conn = ConnectionUtility.getConnection()){
 			
-			String sql = "insert into users(first_name,last_name,username,pass,u_type) values (?,?,?,?,?);";
+			String sql = "select u_id from users where username = ?;";
 			
 			PreparedStatement st = conn.prepareStatement(sql);
 			
-			st.setString(1,u.getFirstName());
-			st.setString(2,u.getLastName());
-			st.setString(3,u.getUsername());
-			st.setString(4,u.getPassword());
-			st.setInt(5,u.getType());
+			st.setString(1,username);
+			
+			ResultSet result = st.executeQuery(sql);
+			
+			if(result.next()) {
+				
+				return result.getInt("u_id");
+			}
+			
+		} catch(SQLException e) {
+			e.printStackTrace();
+			
+		}
+		return 0;
+	}
+
+	@Override
+	public boolean addUser(User u, Information i) {
+		try(Connection conn = ConnectionUtility.getConnection()){
+			
+			String sql = "begin; " + 
+					" insert into users(first_name,last_name,username,pass,u_type) values (?,?,?,?,?);" + 
+					" insert into information(u_id,ssn,address,city,state,zip,phone,email)" +
+					" values ((select max(u_id) from users),?,?,?,?,?,?,?);" +
+					" commit;";
+			PreparedStatement st = conn.prepareStatement(sql);
+			
+			int indx = 0;
+			
+			st.setString(++indx,u.getFirstName());
+			st.setString(++indx,u.getLastName());
+			st.setString(++indx,u.getUsername());
+			st.setString(++indx,u.getPassword());
+			st.setInt(++indx,u.getType());
+			
+			st.setString(++indx,i.getSsn());
+			st.setString(++indx,i.getAddress());
+			st.setString(++indx,i.getCity());
+			st.setString(++indx,i.getState());
+			st.setString(++indx,i.getZip());
+			st.setString(++indx,i.getPhone());
+			st.setString(++indx,i.getEmail());
+			
 			
 			st.execute();
 			
@@ -142,7 +183,7 @@ public class UserDAO implements IUserDAO {
 	}
 
 	@Override
-	public Information findInformationByID(int id) {
+	public Information findUserInfo(int id) {
 		
 		try(Connection conn = ConnectionUtility.getConnection()){
 			
@@ -210,4 +251,40 @@ public class UserDAO implements IUserDAO {
 		
 		return null;
 	}
+
+	@Override
+	public boolean updateUserInfo(Information i) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean uniqueUsername(String u) {
+		try(Connection conn = ConnectionUtility.getConnection()){
+			
+			String sql = "select count(*) from users where username = " + u + ";";
+			
+			PreparedStatement st = conn.prepareStatement(sql);
+			
+			ResultSet result = st.executeQuery(sql);
+			
+			if(result.next()) {
+				
+				if(result.getInt("count") > 0) {
+					return false;
+				}
+				else {
+					return true;
+				}
+			}
+			
+		} catch(SQLException e) {
+			e.printStackTrace();
+			
+		}
+		
+		return false;
+	}
+
+
 }

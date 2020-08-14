@@ -9,6 +9,7 @@ public class Customer implements Serializable{
 	
 	private User person;
 	private List<Account> accounts;
+
 	
 	public Customer() {
 		super();
