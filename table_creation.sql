@@ -10,7 +10,7 @@ create table users(
 --account table
 create table accounts(
   a_id serial primary key,
-  balance money,
+  balance decimal(10,5),
   a_type varchar(50),
   status varchar(50),
   approved_by varchar(100),
@@ -55,6 +55,6 @@ insert into acctxref(user_id,account_id) values (2,2);
 insert into information(u_id,ssn,address,city,state,zip,phone,email) values (1,'956251456','90 South St.','Norwalk','CA','65941','7412588989','doester@gmail.com');
 insert into information(u_id,ssn,address,city,state,zip,phone,email) values (2,'606558888','454 Blue Road','Ontario','TX','95899','9658451000','wasper@aol.com');
 
-select * from users 
+select * from users
 	left join information on
 		users.u_id = information.u_id;

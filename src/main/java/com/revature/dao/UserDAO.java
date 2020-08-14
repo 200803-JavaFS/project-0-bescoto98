@@ -3,7 +3,6 @@ package com.revature.dao;
 import java.util.List;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -93,7 +92,7 @@ public class UserDAO implements IUserDAO {
 			
 			String sql = "insert into users(first_name,last_name,username,pass,u_type) values (?,?,?,?,?);";
 			
-			PreparedStatement st = conn.prepareCall(sql);
+			PreparedStatement st = conn.prepareStatement(sql);
 			
 			st.setString(1,u.getFirstName());
 			st.setString(2,u.getLastName());

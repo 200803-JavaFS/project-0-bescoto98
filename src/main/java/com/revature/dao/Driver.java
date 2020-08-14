@@ -8,7 +8,7 @@ public class Driver {
 
 	public static void main(String[] args) {
 		UserDAO testUser = new UserDAO();
-		
+		AccountDAO testAccounts = new AccountDAO();
 //		List<User> users = testUser.findAll();
 //		
 //		for(User temp : users) {
@@ -33,21 +33,52 @@ public class Driver {
 //			
 //		}
 		
-		List<User> employees = testUser.findSubgroup(1);
+//		List<User> employees = testUser.findSubgroup(1);
+//		
+//		for(User temp : employees) {
+//			System.out.println(temp);
+//		}
+//		
+//		List<User> customers = testUser.findSubgroup(2);
+//		
+//		for(User temp : customers) {
+//			System.out.println(temp);
+//		}
+// 		
+//		List<Account> allAccounts = testAccounts.findAll();
+//		for(Account temp : allAccounts) {
+//			System.out.println(temp);
+//		}
 		
-		for(User temp : employees) {
-			System.out.println(temp);
-		}
+//		Account temp = testAccounts.findByAcctID(2);
+//		System.out.println(temp);
 		
-		List<User> customers = testUser.findSubgroup(2);
+//		List<Account> userAccounts = testAccounts.findUserAccounts(2);
+//		for(Account temp : userAccounts) {
+//			System.out.println(temp);
+//		}
 		
-		for(User temp : customers) {
-			System.out.println(temp);
-		}
+//		Account a = new Account();
+//		
+//		a.setApprovedBy("Steve Jacobs");
+//		a.setBalance(632.23);
+//		a.setType("Savings");
+//		a.setStatus("Pending");
+//		a.setCreatedOn("06-22-2014");
+//		
+//		boolean added = testAccounts.addAccount(a,3);
+//		System.out.println(added);
 		
+//		Account a = testAccounts.findByAcctID(4);
+//		a.setBalance(43.23);
+//		boolean changed = testAccounts.updateAccount(a);
+//		
+//		System.out.println(changed);
 		
-		
-
+//		boolean closed = testAccounts.closeAccount(a);
+//		System.out.println(closed);
+//		boolean addedJoint = testAccounts.addJointAccount(4,1);
+//		System.out.println(addedJoint);
 	}
 
 }
