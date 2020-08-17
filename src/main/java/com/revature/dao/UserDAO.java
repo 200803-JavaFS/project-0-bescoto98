@@ -99,7 +99,7 @@ public class UserDAO implements IUserDAO {
 			
 			st.setString(1,username);
 			
-			ResultSet result = st.executeQuery(sql);
+			ResultSet result = st.executeQuery();
 			
 			if(result.next()) {
 				
@@ -254,7 +254,33 @@ public class UserDAO implements IUserDAO {
 
 	@Override
 	public boolean updateUserInfo(Information i) {
-		// TODO Auto-generated method stub
+		try(Connection conn = ConnectionUtility.getConnection()){
+			String sql = "update information set address= ?, city= ?, "
+					+ "state= ?, zip= ?, phone= ?, email= ?" + 
+					" where u_id = ?;";
+			
+			PreparedStatement st = conn.prepareStatement(sql);
+			
+			st.setString(1,i.getAddress());
+			st.setString(2,i.getCity());
+			st.setString(3,i.getState());
+			st.setString(4,i.getZip());
+			st.setString(5,i.getPhone());
+			st.setString(6,i.getEmail());
+			
+			st.setInt(7,i.getUserID());
+			
+			st.execute();
+			
+			return true;
+			
+			
+		} catch(SQLException e) {
+			
+			e.printStackTrace();
+			
+		}
+		
 		return false;
 	}
 
@@ -262,28 +288,24 @@ public class UserDAO implements IUserDAO {
 	public boolean uniqueUsername(String u) {
 		try(Connection conn = ConnectionUtility.getConnection()){
 			
-			String sql = "select count(*) from users where username = " + u + ";";
+			String sql = "select username from users;";
 			
-			PreparedStatement st = conn.prepareStatement(sql);
+			Statement st = conn.createStatement();
 			
 			ResultSet result = st.executeQuery(sql);
 			
-			if(result.next()) {
-				
-				if(result.getInt("count") > 0) {
+			while(result.next()) {
+				if(result.getString("username").equals(u)) {
 					return false;
-				}
-				else {
-					return true;
 				}
 			}
 			
-		} catch(SQLException e) {
-			e.printStackTrace();
 			
+		}catch(SQLException e) {
+			e.printStackTrace();
 		}
 		
-		return false;
+		return true;
 	}
 
 

@@ -87,6 +87,10 @@ public class Customer implements Serializable{
 		return customerInfo.toString();
 	}
 	
+//	public void addAccount(Account a) {
+//		accounts.add(a);
+//	}
+	
 	
 
 }

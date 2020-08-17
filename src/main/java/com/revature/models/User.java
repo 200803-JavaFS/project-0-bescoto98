@@ -136,8 +136,8 @@ public class User implements Serializable{
 
 	@Override
 	public String toString() {
-		return "User || [userID:" + userID + ", firstName:" + firstName + ", lastName:" + lastName + ", username:"
-				+ username + ", password:" + password + ", type:" + type;
+		return "User || ID: " + userID + "\n" + firstName + " " + lastName + "\nusername: "
+				+ username;
 	}
 	
 	

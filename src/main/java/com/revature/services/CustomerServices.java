@@ -1,5 +1,14 @@
+/**
+ *  to do:
+ *  	transfer
+ *  	apply for joint account
+ *  	update user information
+ */
+
+
 package com.revature.services;
 
+import java.util.List;
 import java.util.Scanner;
 
 import org.apache.logging.log4j.LogManager;
@@ -16,69 +25,84 @@ public class CustomerServices{
 	private UserDAO uDAO = new UserDAO();
 	private AccountDAO aDAO = new AccountDAO();
 	
-	private Customer client;
+	private Customer client = new Customer();
 	
-	public CustomerServices(int id) {
+	public CustomerServices() {
 		System.out.println("Welcome returning customer!");
 		login();
 	}
 	
 	private void login() {
-		System.out.println("Enter your username:\n");
+		System.out.println("Enter your username: ");
 		String username = inputs.nextLine();
 		
-		System.out.println("\nEnter your password:\n");
+		System.out.println("\nEnter your password: ");
 		String password = inputs.nextLine();
 		
-		User temp = uDAO.findUser(username);
-		if(temp.getPassword().equals(password)) {
-			client.setPerson(temp);
-			client.setAccounts(aDAO.findUserAccounts(temp.getUserID()));
-			showMenu();
+		User temp = new User();
+		try {
+			temp = uDAO.findUser(username);
+	
+			if(temp.getPassword().equals(password) && temp.getType() == 2) {
+				client.setPerson(temp);
+				client.setAccounts(aDAO.findUserAccounts(temp.getUserID()));	
+				showMenu();
+			}
+			else {
+				System.out.println("Invalid login.");
+			}
+		
 		}
-		else {
-			
-			System.out.println("Invalid login");
+		catch(NullPointerException e) {
+			System.out.println("That is not a valid login.");
 		}
 	}
 
-	private void showMenu() {
+	private void showMenu() { 
+		boolean going = true;
 		
-		System.out.println("+-------------------+\nMenu options:\n" +
-				"(1) Show My Accounts \n" +
-				"(2) Show My Information\n"+
-				"(3) Withdraw from Account\n" +
-				"(4) Deposit into Account\n" +
-				"(5) Transfer money from accounts\n" +
-				"(6) Apply for Joint Account" +
-				"(7) Close Account");
-		
-		int answer = inputs.nextInt();
-		
-		switch (answer) {
-			case 1:
-				showAccount();
-				break;
-			case 2: 
-				showInfo();
-				break;
-			case 3:
-				changeBalance(true);
-				break;
-			case 4:
-				changeBalance(false);
-				break;
-			case 5:
-				transfer();
-				break;
-			case 6: 
-				applyForJointAccount();
-				break;
-			case 7:
-				closeAccount();
-				break;
-			default:
-				System.out.println("That is not valid input.");
+		while(going)
+		{
+			System.out.println("+-------------------+\nMenu options:\n" +
+					"(1) Show My Accounts \n" +
+					"(2) Show My Information\n"+
+					"(3) Withdraw from Account\n" +
+					"(4) Deposit into Account\n" +
+					"(5) Transfer money from accounts\n" +
+					"(6) Apply for Joint Account\n" +
+					"(7) Close Account\n" +
+					"(8) Logout");
+			
+			int answer = inputs.nextInt();
+			
+			switch (answer) {
+				case 1:
+					showAccount();
+					break;
+				case 2: 
+					showInfo();
+					break;
+				case 3:
+					changeBalance(true);
+					break;
+				case 4:
+					changeBalance(false);
+					break;
+				case 5:
+					transfer();
+					break;
+				case 6: 
+					applyForJointAccount();
+					break;
+				case 7:
+					closeAccount();
+					break;
+				case 8:
+					going = false;
+					break;
+				default:
+					System.out.println("That is not valid input.");
+			}
 		}
 		
 	}
@@ -100,6 +124,8 @@ public class CustomerServices{
 	}
 	
 	private void changeBalance(boolean withdraw) {
+		
+		// check if pending
 
 		// set variables
 		Account acctChanged = new Account();
@@ -163,7 +189,14 @@ public class CustomerServices{
 	
 	private void transfer() {
 		
-		// call dao function for transfer so it can be a transaction
+		// if user has more than one, check which from, else
+		
+		System.out.println("Enter account number to transfer to:\n");
+		int toAcct = inputs.nextInt();
+		
+		Account to = aDAO.findByAcctID(toAcct);
+		
+		
 		
 	}
 	

@@ -1,1 +1,6 @@
 2020-08-12 07:24:53 INFO  Driver:27 - Username: hewwo Password: world
+2020-08-16 13:42:52 INFO  Driver:115 - user created:User || [userID:0, firstName:Johnny, lastName:Storm, username:fireboy56, password:storm11, type:2Information [userID=0, ssn=605551452, address=213 Baxter St., city=New York, state=null, zip=63215, phone=5486520002, email=storm@fantastic.com]
+2020-08-16 13:43:20 ERROR Driver:150 - Unable to add account: Account [accountID=0, balance=0.0, type=Saving, status=Pending, approvedBy=null, createdOn=null]
+2020-08-16 13:59:53 INFO  Driver:118 - user created:User || [userID:0, firstName:Susan, lastName:Storm, username:susan9, password:susan9, type:2Information [userID=0, ssn=625550202, address=123 Baxter St., city=New York, state=NY, zip=65212, phone=5478882036, email=susanstorm@fantastic.com]
+2020-08-16 17:44:07 INFO  Driver:115 - Account approved:
+Account [accountID=7, balance=0.0, type=Checking, status=Open, approvedBy=Steve Jacobs, createdOn=08-16-2020]
