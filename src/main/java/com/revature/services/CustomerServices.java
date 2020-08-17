@@ -24,6 +24,7 @@ public class CustomerServices{
 	Scanner inputs = new Scanner(System.in);
 	private UserDAO uDAO = new UserDAO();
 	private AccountDAO aDAO = new AccountDAO();
+	private BasicServices services = new BasicServices();
 	
 	private Customer client = new Customer();
 	
@@ -70,8 +71,7 @@ public class CustomerServices{
 					"(4) Deposit into Account\n" +
 					"(5) Transfer money from accounts\n" +
 					"(6) Apply for Joint Account\n" +
-					"(7) Close Account\n" +
-					"(8) Logout");
+					"(7) Logout");
 			
 			int answer = inputs.nextInt();
 			
@@ -95,9 +95,6 @@ public class CustomerServices{
 					applyForJointAccount();
 					break;
 				case 7:
-					closeAccount();
-					break;
-				case 8:
 					going = false;
 					break;
 				default:
@@ -125,19 +122,16 @@ public class CustomerServices{
 	
 	private void changeBalance(boolean withdraw) {
 		
-		// check if pending
-
-		// set variables
 		Account acctChanged = new Account();
-		String transaction;
 		
+		String transaction;
 		if(withdraw) {
 			transaction = "withdraw";
 		}
-		else {
+		else
+		{
 			transaction = "deposit";
 		}
-		
 		// pull up account		
 		if(client.getAccounts().size() > 1) {
 			System.out.println("Enter account number for the account to " + transaction + " from:\n");
@@ -155,34 +149,16 @@ public class CustomerServices{
 			acctChanged = client.getAccounts().get(0);
 		}
 		
-		//check balance
-		double curr = acctChanged.getBalance();
-		
-		System.out.println("Current Balance: " + curr);
+		System.out.println("Current Balance: " + acctChanged.getBalance());
 		
 		System.out.println("How much would you like to "+transaction+"?\n");
 		double amnt = inputs.nextDouble();
 		
-		if(withdraw) {
-			if(amnt > curr) {
-				System.out.println("There is not enough money in your account for this withdrawal.");
-				return;
-			}
-			else {
-				acctChanged.setBalance(curr - amnt);
-			}
+		if(services.changeBalance(withdraw,acctChanged,amnt)) {
+			// log
+			
+			System.out.println("Your new balance is: " + acctChanged.getBalance());
 		}
-		else
-		{
-			acctChanged.setBalance(curr + amnt);
-		}
-		
-		
-		aDAO.updateAccount(acctChanged);
-		
-		// log
-		
-		System.out.println("Your new balance is: " + acctChanged.getBalance());
 		
 	}
 	
@@ -190,11 +166,41 @@ public class CustomerServices{
 	private void transfer() {
 		
 		// if user has more than one, check which from, else
+		Account from = new Account();
+		if(client.getAccounts().size() > 1) {
+			System.out.println("Enter account number for the account to transfer from:\n");
+			int acct = inputs.nextInt();
+			
+			for(Account temp : client.getAccounts()) {
+				if(temp.getAccountID() == acct) {
+					from = temp;
+					break;
+				}
+			}
+		
+		}
+		else {
+			from = client.getAccounts().get(0);
+		}
 		
 		System.out.println("Enter account number to transfer to:\n");
 		int toAcct = inputs.nextInt();
 		
 		Account to = aDAO.findByAcctID(toAcct);
+		
+		System.out.println("Enter amount to transfer from Account#" + from.getAccountID() 
+			+ "to Account#" + to.getAccountID());
+		double amnt = inputs.nextDouble();
+	
+		if(amnt > from.getBalance()) {
+			System.out.println("There is not enough money for this transaction.");
+			return;
+		}
+		
+		if(aDAO.transferMoney(from,to,amnt)) {
+			System.out.println("Transfer successful! Current balance" + (from.getBalance() - amnt));
+		}
+	
 		
 		
 		
@@ -204,20 +210,5 @@ public class CustomerServices{
 		
 	}
 	
-	private void closeAccount() {
-		
-		Account a = new Account();
-		
-		if(client.getAccounts().size() == 1) {
-			a = client.getAccounts().get(0);
-		}
-		
-		a.setStatus("Closed");
-		
-		aDAO.updateAccount(a);
-		
-		//log
-		
-	}
 	
 }

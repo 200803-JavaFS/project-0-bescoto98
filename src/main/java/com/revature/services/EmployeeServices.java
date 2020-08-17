@@ -1,7 +1,3 @@
-/**
- * to do: approve accounts
- */
-
 package com.revature.services;
 
 import java.util.List;
@@ -24,32 +20,25 @@ public class EmployeeServices{
 	private UserDAO uDAO = new UserDAO();
 	private AccountDAO aDAO = new AccountDAO();
 	private User currentUser = new User();
+	private BasicServices service = new BasicServices();
 	
 	public EmployeeServices() {
 		System.out.println("Welcome, employee!");
-		login();
+		signIn();
 	}
 	
-	private void login() {
+	private void signIn() {
 		System.out.println("Enter your username:\n");
 		String username = inputs.nextLine();
 		
 		System.out.println("\nEnter your password:\n");
 		String password = inputs.nextLine();
 		
-		try {
-			User temp = uDAO.findUser(username);
-			if(temp.getPassword().equals(password) && temp.getType() == 1) {
-				currentUser = temp;
-			}
-			else {
-				System.out.println("Invalid login");
-			}
-		} catch(NullPointerException e) {
-			System.out.println("That is not a valid login.");
+		currentUser = service.login(1,username,password);
+		if(currentUser != null) {
+			showMenu();
 		}
 		
-		showMenu();
 		
 	}
 	
@@ -64,7 +53,8 @@ public class EmployeeServices{
 					"(3) Update My Information\n" +
 					"(4) View Pending Accounts\n" +
 					"(5) Approve Pending Account\n" +
-					"(6) Logout" +
+					"(6) Deny Pending Account\n" +
+					"(7) Logout" +
 					"\n+-------------------------------------+\n| "
 					);
 			
@@ -84,9 +74,12 @@ public class EmployeeServices{
 					showPendingAccounts();
 					break;
 				case 5:
-					approveAccounts();
+					changeAccountStatus(true);
 					break;
 				case 6:
+					changeAccountStatus(false);
+					break;
+				case 7:
 					going = false;
 					break;
 				default:
@@ -96,26 +89,21 @@ public class EmployeeServices{
 	
 	}
 
-	private void approveAccounts() {
-		System.out.println("Enter the account number of the account you wish to approve:\n");
+	private void changeAccountStatus(boolean approve) {
+		System.out.println("Enter the account number:\n");
 		int acct = inputs.nextInt();
 		
-		Account a = aDAO.findByAcctID(acct);
-		a.setStatus("Open");
 		String whoApproved = currentUser.getFirstName() + " " + currentUser.getLastName();
-		a.setApprovedBy(whoApproved);
 		
-		Date d = new Date();
-		SimpleDateFormat f = new SimpleDateFormat("MM-dd-yyy");
-		a.setCreatedOn(f.format(d));
-		
-		if(aDAO.updateAccount(a))
-		{
+		if(service.changeAccStatus(acct,approve,whoApproved)) {
+			Account a = aDAO.findByAcctID(acct);
 			System.out.println(a);
 			log.info("Account approved:\n" + a);
 		}
-		else {
-			System.out.println("There was an error, try again later.");
+		else
+		{
+			System.out.println("There was an error with this request.");
+			log.error("unable to approve account with id: " + acct);
 		}
 		
 		
@@ -135,65 +123,8 @@ public class EmployeeServices{
 	private void updateInfo() {
 		System.out.println("+-------------------------------------+\nCurrent user information:\n");
 		showEmployeeInfo();
-//		System.out.println("Select value to change:"
-//				+ "(1) Address\n"
-//				+ "(2) City \n"
-//				+ "(3) State\n"
-//				+ "(4) ZIP\n"
-//				+ "(5) Phone number\n"
-//				+ "(6) Email address\n"			
-//				);
-//		
-//		int choice = inputs.nextInt();
-//		
-//		switch(choice) {
-//			case 1:
-//		}
-		Information info = new Information();
-		System.out.println("| Enter your street address:\t");
-		info.setAddress(inputs.nextLine());
 		
-		System.out.println("| Enter the city:\t");
-		info.setCity(inputs.nextLine());
-		
-		System.out.println("| Enter your state:\t");
-		info.setState(inputs.nextLine());
-		
-		System.out.println("| Enter the ZIP code:\t");
-		info.setZip(inputs.nextLine());
-		
-		// validate phone number
-		System.out.println("| Enter your phone number:\t");
-		String phone = inputs.nextLine();
-		phone = phone.replaceAll("\\D","");
-		info.setPhone(phone);
-		
-		// validate email
-		// help w/ regular expressions found here https://howtodoinjava.com/java/regex/java-regex-validate-email-address/
-		while(true) {
-			System.out.println("| Enter your email address:\t");
-			String email = inputs.nextLine();
-			
-			Pattern emPattern = Pattern.compile("^(.+)@(.+)$");
-			Matcher passwordM = emPattern.matcher(email);
-			
-			if(passwordM.matches()) {
-				info.setEmail(email);
-				break;
-			}
-			else {
-				System.out.println("Invalid email");
-			}
-			
-		}
-		
-		if(uDAO.updateUserInfo(info)) {
-			System.out.println("Information updated sucessfully");
-			showEmployeeInfo();
-		}
-		else {
-			System.out.println("Something went wrong. Try again later");
-		}
+		service.updateInfo(currentUser.getUserID());
 		
 	}
 

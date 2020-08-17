@@ -15,6 +15,12 @@ public class User implements Serializable{
 	
 	public User() {
 		super();
+		this.userID = -1;
+		this.firstName = null;
+		this.lastName = null;
+		this.username = null;
+		this.password = null;
+		this.type = 2;
 	}
 
 	public User(String firstName, String lastName, String username, String password, int type) {
