@@ -1,6 +1,9 @@
 package com.revature;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
+
+import com.google.common.hash.Hashing;
 import com.revature.services.*;
 
 public class Driver {
@@ -11,6 +14,18 @@ public class Driver {
 		
 		System.out.println("Welcome to Not Wells Fargo™");
 		System.out.println("+-------------------------------------+");
+		
+//		String[] passes = {"password","longerpassword","thebiggestpasswordicanthinkofgoddamnthatslong"};
+//		
+//		for(String s : passes) {
+//			String sha256hex = Hashing.sha256().hashString(s, StandardCharsets.UTF_8).toString();
+//			System.out.println(s + "\n" + s.length());
+//			System.out.println(sha256hex + "\n" + sha256hex.length());
+//		}
+		
+//		String hashedPW = Hashing.sha256().hashString("root", StandardCharsets.UTF_8).toString();
+//		System.out.println(hashedPW);
+		
 		
 		while(true) {
 			System.out.println("| Menu options: "

@@ -76,9 +76,9 @@ public class Customer implements Serializable{
 	@Override
 	public String toString() {
 		
-		StringBuilder customerInfo = new StringBuilder("Customer:" + person.getUserID());
+		StringBuilder customerInfo = new StringBuilder(person.getUserID() + " || ");
 		
-		customerInfo.append(", Name: " + person.getFirstName() + " " + person.getLastName() + ", Accounts: ");
+		customerInfo.append(person.getFirstName() + " " + person.getLastName() + "\nAccounts: ");
 		
 		for(Account a: accounts) {
 			customerInfo.append("\n\t" + a.toString());
@@ -86,11 +86,6 @@ public class Customer implements Serializable{
 		
 		return customerInfo.toString();
 	}
-	
-//	public void addAccount(Account a) {
-//		accounts.add(a);
-//	}
-	
 	
 
 }

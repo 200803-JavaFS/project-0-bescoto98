@@ -1,6 +1,51 @@
-2020-08-12 07:24:53 INFO  Driver:27 - Username: hewwo Password: world
-2020-08-16 13:42:52 INFO  Driver:115 - user created:User || [userID:0, firstName:Johnny, lastName:Storm, username:fireboy56, password:storm11, type:2Information [userID=0, ssn=605551452, address=213 Baxter St., city=New York, state=null, zip=63215, phone=5486520002, email=storm@fantastic.com]
-2020-08-16 13:43:20 ERROR Driver:150 - Unable to add account: Account [accountID=0, balance=0.0, type=Saving, status=Pending, approvedBy=null, createdOn=null]
 2020-08-16 13:59:53 INFO  Driver:118 - user created:User || [userID:0, firstName:Susan, lastName:Storm, username:susan9, password:susan9, type:2Information [userID=0, ssn=625550202, address=123 Baxter St., city=New York, state=NY, zip=65212, phone=5478882036, email=susanstorm@fantastic.com]
 2020-08-16 17:44:07 INFO  Driver:115 - Account approved:
 Account [accountID=7, balance=0.0, type=Checking, status=Open, approvedBy=Steve Jacobs, createdOn=08-16-2020]
+2020-08-18 08:57:33 INFO  Driver:140 - user deposit account ID:7 amount: 50.4
+2020-08-18 08:57:50 INFO  Driver:140 - user withdraw account ID:7 amount: 23.0
+2020-08-18 12:12:07 INFO  Driver:128 - user created:User || ID: -1
+	Victor Frankenstein
+	username: frankie66Information ||
+	898 Scary Rd., Freakville, TX 69500
+	(985) 632-0011
+	frankenman@aol.com
+2020-08-18 12:12:21 INFO  Driver:147 - account request by userID: 8
+2020-08-18 12:16:32 INFO  Driver:99 - Account approved:
+Account || 8
+	balance: $0.0
+	type: Savings
+	status: Open
+	approvedBy: Steve Jacobs
+	created on: 08-18-2020
+2020-08-18 12:17:31 INFO  Driver:166 - user deposit account ID:8 amount: 10.0
+2020-08-18 12:18:04 INFO  Driver:104 - account request by userID: 8
+2020-08-18 12:19:27 INFO  Driver:226 - joint acccount opened #1 client: 8
+2020-08-18 13:31:54 INFO  Driver:99 - Account approved:Account || 9
+	balance: $0.0
+	type: Checking
+	status: Closed
+	approvedBy: Steve Jacobs
+	created on: 08-18-2020 by 4
+2020-08-18 13:35:36 INFO  Driver:103 - account request by userID: 8
+2020-08-18 13:37:02 INFO  Driver:191 - Account changed:
+Account || 10
+	balance: $0.0
+	type: Checking
+	status: Open
+	approvedBy: Marissa Ruiz
+	created on: 08-18-2020
+2020-08-18 13:37:24 INFO  Driver:173 - balance changed withdraw false for $5809.99 for #10
+2020-08-18 13:42:00 INFO  Driver:165 - userID 7 deposit account ID:7 amount: 400.9
+2020-08-18 13:42:00 INFO  Driver:173 - balance changed deposit of amount $400.9 for accountID: 7 by userID: 7
+2020-08-18 13:42:25 INFO  Driver:165 - userID 7 withdrawal account ID:7 amount: 300.0
+2020-08-18 13:42:25 INFO  Driver:168 - balance changed withdrawal of amount $300.0 for accountID: 7 by userID: 7
+2020-08-18 13:51:37 INFO  Driver:220 - transfer occured from account: 7 to acount: 1 amount: 50.0 by userID:7
+2020-08-18 13:54:28 INFO  Driver:103 - account request by userID: 7
+2020-08-18 13:55:09 INFO  Driver:197 - Account changed:
+Account || 11
+	balance: $0.0
+	type: Savings
+	status: Open
+	approvedBy: Marissa Ruiz
+	created on: 08-18-2020
+2020-08-18 13:55:32 INFO  Driver:153 - amount transfered $10.0 from account: 7 to account: 11completed by userID: 5

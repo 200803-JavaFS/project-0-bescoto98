@@ -1,6 +1,5 @@
 package com.revature.services;
 
-import java.util.List;
 import java.util.Scanner;
 
 import org.apache.logging.log4j.LogManager;
@@ -32,12 +31,14 @@ public class CustomerServices{
 		System.out.println("\nEnter your password: ");
 		String password = inputs.nextLine();
 		
-		client.setPerson(service.login(2,username,password));
-		if(client.getPerson() != null) {
+		if(service.login(2,username,password)) {
+			client.setPerson(uDAO.findUser(username));
 			client.setAccounts(aDAO.findUserAccounts(client.getPerson().getUserID()));
+			showMenu();
 		}
-
-		showMenu();
+		else {
+			System.out.println("Login attempt failed.");
+		}
 		
 	}
 
@@ -47,13 +48,14 @@ public class CustomerServices{
 		while(going)
 		{
 			System.out.println("+-------------------+\nMenu options:\n" +
-					"(1) Show My Accounts \n" +
+					"(1) Show My Accounts\n" +
 					"(2) Show My Information\n"+
 					"(3) Withdraw from Account\n" +
 					"(4) Deposit into Account\n" +
 					"(5) Transfer money from accounts\n" +
 					"(6) Apply for Joint Account\n" +
-					"(7) Logout");
+					"(7) Open a new account\n" +
+					"(8) Logout");
 			
 			int answer = inputs.nextInt();
 			
@@ -76,7 +78,10 @@ public class CustomerServices{
 				case 6: 
 					applyForJointAccount();
 					break;
-				case 7:
+				case 7: 
+					openAccount();
+					break;
+				case 8:
 					going = false;
 					break;
 				default:
@@ -86,6 +91,26 @@ public class CustomerServices{
 		
 	}
 	
+	private void openAccount() {
+		System.out.println("Would you like to make a Checking account or Savings account?\n");
+		while(true) {
+			String type = inputs.nextLine();
+			
+			if(type.equalsIgnoreCase("checking") || type.equalsIgnoreCase("savings")) {
+				
+				if(service.createAccount(client.getPerson().getUserID(),type)) {
+					System.out.println("Your request to open an account has been created.");
+					log.info("account request by userID: " + client.getPerson().getUserID());
+				}
+				return;
+			}
+			else {
+				System.out.println("That is not a valid option, try again.");
+			}
+		}
+		
+	}
+
 	private void showAccount() {
 		
 		for(Account temp : client.getAccounts()) {
@@ -108,7 +133,7 @@ public class CustomerServices{
 		
 		String transaction;
 		if(withdraw) {
-			transaction = "withdraw";
+			transaction = "withdrawal";
 		}
 		else
 		{
@@ -116,7 +141,7 @@ public class CustomerServices{
 		}
 		// pull up account		
 		if(client.getAccounts().size() > 1) {
-			System.out.println("Enter account number for the account to " + transaction + " from:\n");
+			System.out.println("Enter account number for the " + transaction + ":\n");
 			int acct = inputs.nextInt();
 			
 			for(Account temp : client.getAccounts()) {
@@ -133,14 +158,24 @@ public class CustomerServices{
 		
 		System.out.println("Current Balance: " + acctChanged.getBalance());
 		
-		System.out.println("How much would you like to "+transaction+"?\n");
+		System.out.println("Amount?");
 		double amnt = inputs.nextDouble();
 		
 		if(service.changeBalance(withdraw,acctChanged,amnt)) {
-			log.info("user " + transaction + " account ID:" + acctChanged.getAccountID() +
-					" amount: " + amnt);
-			
+			if(withdraw) {
+				log.info("balance changed withdrawal of amount $" + amnt + 
+						" for accountID: " + acctChanged.getAccountID() + 
+						" by userID: " + client.getPerson().getUserID());
+			}
+			else {
+				log.info("balance changed deposit of amount $" + amnt + 
+						" for accountID: " + acctChanged.getAccountID() + 
+						" by userID: " + client.getPerson().getUserID());
+			}
 			System.out.println("Your new balance is: " + acctChanged.getBalance());
+		}
+		else {
+			System.out.println("There was an error, try again later.");
 		}
 		
 	}
@@ -171,8 +206,8 @@ public class CustomerServices{
 		
 		Account to = aDAO.findByAcctID(toAcct);
 		
-		System.out.println("Enter amount to transfer from Account#" + from.getAccountID() 
-			+ "to Account#" + to.getAccountID());
+		System.out.println("Enter amount to transfer from Account #" + from.getAccountID() 
+			+ " to Account #" + to.getAccountID());
 		double amnt = inputs.nextDouble();
 	
 		if(amnt > from.getBalance()) {
@@ -181,14 +216,14 @@ public class CustomerServices{
 		}
 		
 		if(aDAO.transferMoney(from,to,amnt)) {
-			System.out.println("Transfer successful! Current balance" + (from.getBalance() - amnt));
-			log.info("transfer occured from #" + from.getAccountID() + " to #" + to.getAccountID()
-					+ " amount: " + amnt);
+			System.out.println("Transfer successful! Current balance: " + (from.getBalance() - amnt));
+			log.info("transfer occured from account: " + from.getAccountID() + " to account: " + to.getAccountID()
+					+ " amount: " + amnt + " by userID:" + client.getPerson().getUserID());
 		}
-	
-		
-		
-		
+		else {
+			System.out.println("Unable to process this request. Please try again later.");
+		}
+
 	}
 	
 	private void applyForJointAccount() {
@@ -200,7 +235,7 @@ public class CustomerServices{
 		
 		if(aDAO.addJointAccount(joint,userID)) {
 			System.out.println("Joint account opened.");
-			log.info("joint acccount opened #" + joint + " client: " + userID);
+			log.info("joint acccount opened Account: " + joint + " client ID: " + userID);
 		}
 	}
 	

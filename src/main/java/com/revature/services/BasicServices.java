@@ -1,11 +1,13 @@
 package com.revature.services;
 
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.google.common.hash.Hashing;
 import com.revature.dao.*;
 import com.revature.models.*;
 
@@ -14,11 +16,19 @@ public class BasicServices {
 	private UserDAO uDAO = new UserDAO();
 	private AccountDAO aDAO = new AccountDAO();
 	
-	public User login(int type, String u, String p) {
-				try {
+	public boolean login(int type, String u, String p) {
+		try {
 			User temp = uDAO.findUser(u);
-			if(temp.getPassword().equals(p) && temp.getType() == type) {
-				return temp;
+			
+			/** 1. get hashed pw value from database
+			 *  2. hash attempt
+			 *  3. compare
+			 */
+			
+			String hashedPW = Hashing.sha256().hashString(p, StandardCharsets.UTF_8).toString();
+			
+			if(temp.getPassword().equals(hashedPW) && temp.getType() == type) {
+				return true;
 			}
 			else {
 				System.out.println("Invalid login");
@@ -28,7 +38,7 @@ public class BasicServices {
 			System.out.println("That is not a valid login.");
 		}
 		
-		return null;
+		return false;
 	}
 	
 	public boolean updateInfo(int id) {
@@ -128,6 +138,20 @@ public class BasicServices {
 		a.setCreatedOn(f.format(d));
 		
 		return aDAO.updateAccount(a);
+	}
+	
+	public boolean createAccount(int userID, String type) {
+		
+		Account a = new Account();
+		a.setBalance(0.0);
+		a.setStatus("Pending");
+		a.setType(type);
+		
+		
+		if(aDAO.addAccount(a,userID)) {
+			return true;
+		}
+		return false;
 	}
 
 }

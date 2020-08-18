@@ -163,10 +163,10 @@ public class Information implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Information ||\n" + address + ", " + city + ", " + state + " "
+		return "Information ||\n\t" + address + ", " + city + ", " + state + " "
 				+ zip + 
-				"\n(" + phone.substring(0,3) +") " +phone.substring(3,6) + "-" + phone.substring(6,10) +				
-				"\n" + email;
+				"\n\t(" + phone.substring(0,3) +") " +phone.substring(3,6) + "-" + phone.substring(6,10) +				
+				"\n\t" + email;
 	}
 	
 	

@@ -28,15 +28,18 @@ public class AdminServices {
 	}
 	
 	private void signIn() {
-		System.out.println("Enter your username:\n");
+		System.out.println("Enter your username: ");
 		String username = inputs.nextLine();
 		
-		System.out.println("\nEnter your password:\n");
+		System.out.println("\nEnter your password: ");
 		String password = inputs.nextLine();
 		
-		currentUser = service.login(0,username,password);
-		if(currentUser != null) {
+		if(service.login(0,username,password)) {
+			currentUser = uDAO.findUser(username);
 			showMenu();
+		}
+		else {
+			System.out.println("Login attempt failed.");
 		}
 	}
 
@@ -108,10 +111,11 @@ public class AdminServices {
 		Account a = aDAO.findByAcctID(acct);
 		
 		a.setStatus("Closed");
+		a.setBalance(0.0);
 		if(aDAO.updateAccount(a)) {
 			System.out.println("Account successfully closed.");
 			System.out.println(a);
-			log.info("Account closed:" + a);
+			log.info("Account closed: " + a + " by userID: " + currentUser.getUserID());
 		}
 		else
 		{
@@ -146,11 +150,12 @@ public class AdminServices {
 		
 		if(aDAO.transferMoney(a,b,amnt)) {
 			System.out.println("Transaction successful.");
-			log.info("amount transfered $" + amnt + " from #" + a.getAccountID() + " to #" + b.getAccountID());
+			log.info("amount transfered $" + amnt + " from account: " + a.getAccountID() + " to account: " + b.getAccountID()
+					+ " completed by userID: " + currentUser.getUserID());
 		}
 		else {
 			System.out.println("There was an error with this transaction, try again later.");
-			log.error("unable to transfer" + a + b + "$" + amnt);
+			log.error("unable to transfer from account ID: " + a.getAccountID() + " to account ID: " + b.getAccountID() + "$" + amnt);
 		}
 		
 	}
@@ -165,7 +170,13 @@ public class AdminServices {
 		double amnt = inputs.nextDouble();
 		
 		if(service.changeBalance(b,a,amnt)) {
-			log.info("balance changed withdraw " + b + " for $" + amnt + " for #" + id);
+			if(b) {
+				log.info("balance changed withdrawal of amount $" + amnt + " for accountID: " + id + " by " + currentUser.getUserID());
+			}
+			else {
+				log.info("balance changed deposit of amount $" + amnt + " for accountID: " + id + " by " + currentUser.getUserID());
+			}
+			
 		}
 		else {
 			System.out.println("There was an error. Please try again later.");
@@ -188,7 +199,7 @@ public class AdminServices {
 		else
 		{
 			System.out.println("There was an error with this request.");
-			log.error("unable to approve account with id: " + acct);
+			log.error("unable to approve change account with id: " + acct);
 		}
 		
 	}

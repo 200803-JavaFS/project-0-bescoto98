@@ -142,8 +142,17 @@ public class User implements Serializable{
 
 	@Override
 	public String toString() {
-		return "User || ID: " + userID + "\n" + firstName + " " + lastName + "\nusername: "
-				+ username;
+		
+		String info;
+		if(userID == -1) {
+			info = "User || \n\t" + firstName + " " + lastName + "\n\tusername: "
+					+ username;
+		}
+		else {
+			info = "User || ID: " + userID + "\n\t" + firstName + " " + lastName + "\n\tusername: "
+					+ username;
+		}
+		return info;
 	}
 	
 	

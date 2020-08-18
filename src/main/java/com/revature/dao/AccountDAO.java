@@ -225,7 +225,7 @@ public class AccountDAO implements IAccountDAO {
 			st.setDouble(3,to.getBalance() + amnt);
 			st.setInt(4,to.getAccountID());
 			
-			st.executeQuery(sql);
+			st.execute();
 			
 			return true;
 			
@@ -281,7 +281,7 @@ public class AccountDAO implements IAccountDAO {
 			
 			List<Customer> employeeCustomers = new ArrayList<>();
 			
-			String sql = "select first_name,last_name,username,a_id,balance,a_type,status,created_on "
+			String sql = "select u_id,first_name,last_name,username,a_id,balance,a_type,status,created_on "
 					+ "from acctxref left join users on users.u_id = acctxref.user_id "
 					+ "left join accounts on accounts.a_id = acctxref.account_id "
 					+ "where approved_by =?;";
@@ -300,6 +300,7 @@ public class AccountDAO implements IAccountDAO {
 				
 				Account temp = new Account();
 				
+				person.setUserID(result.getInt("u_id"));
 				person.setFirstName(result.getString("first_name"));
 				person.setLastName(result.getString("last_name"));
 				person.setUsername(result.getString("username"));

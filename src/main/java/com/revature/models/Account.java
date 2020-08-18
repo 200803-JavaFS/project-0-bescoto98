@@ -171,8 +171,9 @@ public class Account implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Account [accountID=" + accountID + ", balance=" + balance + ", type=" + type + ", status=" + status
-				+ ", approvedBy=" + approvedBy + ", createdOn=" + createdOn + "]";
+		return "Account || " + accountID + "\n\tbalance: $" + balance + "\n\ttype: " + type 
+				+ "\n\tstatus: " + status
+				+ "\n\tapprovedBy: " + approvedBy + "\n\tcreated on: " + createdOn;
 	}
 	
 	

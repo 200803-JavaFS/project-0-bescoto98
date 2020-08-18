@@ -2,10 +2,6 @@ package com.revature.services;
 
 import java.util.List;
 import java.util.Scanner;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -28,19 +24,21 @@ public class EmployeeServices{
 	}
 	
 	private void signIn() {
-		System.out.println("Enter your username:\n");
+		System.out.println("Enter your username: ");
 		String username = inputs.nextLine();
 		
-		System.out.println("\nEnter your password:\n");
+		System.out.println("\nEnter your password: ");
 		String password = inputs.nextLine();
 		
-		currentUser = service.login(1,username,password);
-		if(currentUser != null) {
+		if(service.login(1,username,password)) {
+			currentUser = uDAO.findUser(username);
 			showMenu();
 		}
-		
-		
+		else {
+			System.out.println("Login attempt failed.");
+		}
 	}
+
 	
 	private void showMenu() {
 		
@@ -98,7 +96,7 @@ public class EmployeeServices{
 		if(service.changeAccStatus(acct,approve,whoApproved)) {
 			Account a = aDAO.findByAcctID(acct);
 			System.out.println(a);
-			log.info("Account approved:\n" + a);
+			log.info("Account changed \napproved: " + approve + "\n account ID: " + a.getAccountID() + " by userID: " + currentUser.getUserID());
 		}
 		else
 		{

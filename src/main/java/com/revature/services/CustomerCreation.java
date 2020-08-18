@@ -1,12 +1,13 @@
 package com.revature.services;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.revature.models.*;
 import com.revature.dao.*;
-
+import com.google.common.hash.Hashing;
 import com.revature.Driver;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -16,7 +17,7 @@ public class CustomerCreation {
 	private static final Logger log = LogManager.getLogger(Driver.class);
 	Scanner inputs = new Scanner(System.in);
 	private UserDAO uDAO = new UserDAO();
-	private AccountDAO aDAO = new AccountDAO();
+	private BasicServices service = new BasicServices();
 
 	public CustomerCreation() {
 		System.out.println("Welcome, new customer!");
@@ -34,16 +35,13 @@ public class CustomerCreation {
 		u.setLastName(inputs.nextLine());
 	
 		String username;
-		// username validation
+	
 		while(true) {
-			System.out.println("Enter a username that includes digits and is at least five characters long:\nEx:user55\n\t");
+			System.out.println("Enter a username that is at least five characters long:\n\t");
 			username = inputs.nextLine();
 			username = username.toLowerCase();
 			
-			Pattern uNamePattern = Pattern.compile("^[a-z0-9]{5,20}");
-			Matcher usernameM = uNamePattern.matcher(username);
-			
-			if(usernameM.matches() && uDAO.uniqueUsername(username)) {
+			if(username.length() > 4 && uDAO.uniqueUsername(username)) {
 				u.setUsername(username);
 				break;
 			}
@@ -53,16 +51,17 @@ public class CustomerCreation {
 		}
 		
 		while(true) {
-			// password code
 			System.out.println("Enter a password at least five characters long:\n\t");
 			String password = inputs.nextLine();
 			
-			if(password.length()<5) {
+			if(password.length()<4) {
 				System.out.println("That password is too short");
 			}
 			else {
-				u.setPassword(password);
-				//hashing function
+				
+				// https://javadoc.io/doc/com.google.guava/guava/13.0/com/google/common/hash/Hashing.html
+				String hashedPW = Hashing.sha256().hashString(password, StandardCharsets.UTF_8).toString();
+				u.setPassword(hashedPW);
 				break;
 			}
 		}
@@ -74,8 +73,18 @@ public class CustomerCreation {
 		
 		Information info = new Information();
 		
-		System.out.println("| Enter your social security numer:\t");
-		info.setSsn(inputs.nextLine());
+		while(true) {
+			System.out.println("| Enter your social security numer:\t");
+			String ssn = inputs.nextLine();
+			
+			if(ssn.length() != 9) {
+				System.out.println("That is not a valid SSN.");
+			}
+			else {
+				info.setSsn(ssn);
+				break;
+			}
+		}
 		
 		System.out.println("| Enter your street address:\t");
 		info.setAddress(inputs.nextLine());
@@ -89,14 +98,15 @@ public class CustomerCreation {
 		System.out.println("| Enter the ZIP code:\t");
 		info.setZip(inputs.nextLine());
 		
-		// validate phone number
+		// remove special characters from phone number
 		System.out.println("| Enter your phone number:\t");
 		String phone = inputs.nextLine();
 		phone = phone.replaceAll("\\D","");
 		info.setPhone(phone);
 		
 		// validate email
-		// help w/ regular expressions found here https://howtodoinjava.com/java/regex/java-regex-validate-email-address/
+		// help w/ regular expressions found here 
+		// https://howtodoinjava.com/java/regex/java-regex-validate-email-address/
 		while(true) {
 			System.out.println("| Enter your email address:\t");
 			String email = inputs.nextLine();
@@ -115,7 +125,7 @@ public class CustomerCreation {
 		}
 		
 		if(uDAO.addUser(u,info)) {
-			log.info("user created:" + u + info);
+			log.info("user created: " + u + info);
 			createAccount(uDAO.findUserID(username));	
 		}
 		else {
@@ -125,34 +135,27 @@ public class CustomerCreation {
 	}
 
 	private void createAccount(int userID) {
-		Account a = new Account();
-		a.setBalance(0.0);
-		a.setStatus("Pending");
 		
 		System.out.println("Would you like to make a Checking account or Savings account?\n");
-		
-		
 		while(true) {
 			String type = inputs.nextLine();
 			
 			if(type.equalsIgnoreCase("checking") || type.equalsIgnoreCase("savings")) {
-				a.setType(type);
-				break;
+				
+				if(service.createAccount(userID,type)) {
+					System.out.println("Your request to open an account has been created.");
+					log.info("account request by userID: " + userID);
+					return;
+				}
+				else {
+					System.out.println("Your request could not be completed at this time.");
+					log.error("unable to create account for userID: " + userID);
+				}
 			}
 			else {
 				System.out.println("That is not a valid option");
 			}
 		}
-		
-		if(aDAO.addAccount(a,userID)) {
-			System.out.println("Your request to create an account has been sent. Check back later once it has been approved.");
-		}
-		else {
-			System.out.println("There was an error processing your account information, please try again later.");
-			log.error("Unable to add account: " + a);
-		}
-		
-		
 	}
 
 }
