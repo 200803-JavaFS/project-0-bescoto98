@@ -107,7 +107,7 @@ public class BasicServices {
 		
 		if(withdraw) {
 			if(amnt > curr) {
-				System.out.println("There is not money for this transaction.");
+				System.out.println("There is not enough money for this transaction.");
 				return false;
 			}
 			a.setBalance(curr - amnt);

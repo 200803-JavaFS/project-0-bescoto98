@@ -45,14 +45,14 @@ public class EmployeeServices{
 		boolean going = true;
 		while(going) {
 			System.out.println("+-------------------------------------+\n" +
-					"Menu options:\n" +
-					"(1) Show Approved Users Information \n" +
-					"(2) Show My Information\n"+
-					"(3) Update My Information\n" +
-					"(4) View Pending Accounts\n" +
-					"(5) Approve Pending Account\n" +
-					"(6) Deny Pending Account\n" +
-					"(7) Logout" +
+					"| Menu options:\n" +
+					"| (1) Show Approved Users Information \n" +
+					"| (2) Show My Information\n"+
+					"| (3) Update My Information\n" +
+					"| (4) View Pending Accounts\n" +
+					"| (5) Approve Pending Account\n" +
+					"| (6) Deny Pending Account\n" +
+					"| (7) Logout" +
 					"\n+-------------------------------------+\n| "
 					);
 			

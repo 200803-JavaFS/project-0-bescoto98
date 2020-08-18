@@ -49,3 +49,17 @@ Account || 11
 	approvedBy: Marissa Ruiz
 	created on: 08-18-2020
 2020-08-18 13:55:32 INFO  Driver:153 - amount transfered $10.0 from account: 7 to account: 11completed by userID: 5
+2020-08-18 14:50:45 INFO  Driver:128 - user created: User || 
+	Bobby Brown
+	username: bbrown56Information ||
+	123 Red St., San Francisco, CA 69625
+	(658) 333-9584
+	bobertbrown@gmail.com
+2020-08-18 14:50:52 INFO  Driver:147 - account request by userID: 9
+2020-08-18 14:51:28 INFO  Driver:238 - joint acccount opened Account: 1 client ID: 9
+2020-08-18 15:00:45 INFO  Driver:99 - Account changed 
+approved: true
+ account ID: 12 by userID: 4
+2020-08-18 15:01:42 INFO  Driver:174 - balance changed withdrawal of amount $10.0 for accountID: 1 by 5
+2020-08-18 15:02:59 INFO  Driver:177 - balance changed deposit of amount $600.0 for accountID: 12 by 5
+2020-08-18 15:03:41 INFO  Driver:153 - amount transfered $500.0 from account: 1 to account: 12 completed by userID: 5

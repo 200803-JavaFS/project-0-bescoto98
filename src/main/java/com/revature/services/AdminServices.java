@@ -48,18 +48,18 @@ public class AdminServices {
 		int indx;
 		while(going) {
 			indx = 1;
-			System.out.println("+-------------------------------------+\n" +
-					"Menu options:\n" +
-					"("+ (indx++) +") Show My Information\n"+
-					"("+ (indx++) +") Update My Information\n" +
-					"("+ (indx++) +") View Pending Accounts\n" +
-					"("+ (indx++) +") Approve Pending Account\n" +
-					"("+ (indx++) +") Deny Pending Account\n" +
-					"("+ (indx++) +") Withdraw from Account\n" +
-					"("+ (indx++) +") Deposit into Account\n" +
-					"("+ (indx++) +") Transfer money from accounts\n" +
-					"("+ (indx++) +") Cancel Account\n" +
-					"("+ (indx++) +") Logout" +
+			System.out.println("+-------------------------------------+");
+			System.out.println("| Menu options:\n" +
+					"| ("+ (indx++) +") Show My Information\n"+
+					"| ("+ (indx++) +") Update My Information\n" +
+					"| ("+ (indx++) +") View Pending Accounts\n" +
+					"| ("+ (indx++) +") Approve Pending Account\n" +
+					"| ("+ (indx++) +") Deny Pending Account\n" +
+					"| ("+ (indx++) +") Withdraw from Account\n" +
+					"| ("+ (indx++) +") Deposit into Account\n" +
+					"| ("+ (indx++) +") Transfer money from accounts\n" +
+					"| ("+ (indx++) +") Cancel Account\n" +
+					"| ("+ (indx++) +") Logout" +
 					"\n+-------------------------------------+\n| "
 					);
 			
@@ -171,10 +171,10 @@ public class AdminServices {
 		
 		if(service.changeBalance(b,a,amnt)) {
 			if(b) {
-				log.info("balance changed withdrawal of amount $" + amnt + " for accountID: " + id + " by " + currentUser.getUserID());
+				log.info("balance changed withdrawal of amount $" + amnt + " for accountID: " + id + " by userID: " + currentUser.getUserID());
 			}
 			else {
-				log.info("balance changed deposit of amount $" + amnt + " for accountID: " + id + " by " + currentUser.getUserID());
+				log.info("balance changed deposit of amount $" + amnt + " for accountID: " + id + " by userID: " + currentUser.getUserID());
 			}
 			
 		}

@@ -47,15 +47,17 @@ public class CustomerServices{
 		
 		while(going)
 		{
-			System.out.println("+-------------------+\nMenu options:\n" +
-					"(1) Show My Accounts\n" +
-					"(2) Show My Information\n"+
-					"(3) Withdraw from Account\n" +
-					"(4) Deposit into Account\n" +
-					"(5) Transfer money from accounts\n" +
-					"(6) Apply for Joint Account\n" +
-					"(7) Open a new account\n" +
-					"(8) Logout");
+			System.out.println("+-------------------------------------+");
+			System.out.println("| Menu options:\n" +
+					"| (1) Show My Accounts\n" +
+					"| (2) Show My Information\n"+
+					"| (3) Withdraw from Account\n" +
+					"| (4) Deposit into Account\n" +
+					"| (5) Transfer money from accounts\n" +
+					"| (6) Apply for Joint Account\n" +
+					"| (7) Open a new account\n" +
+					"| (8) Logout"
+					+ "\n+-------------------------------------+");
 			
 			int answer = inputs.nextInt();
 			
