@@ -1,35 +1,15 @@
 package com.revature;
 
-import java.util.List;
 import java.util.Scanner;
-
-import com.revature.dao.AccountDAO;
-import com.revature.dao.UserDAO;
-import com.revature.models.Customer;
-import com.revature.models.Information;
 import com.revature.services.*;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 public class Driver {
-	
-	private static final Logger log = LogManager.getLogger(Driver.class);
 
 	public static void main(String[] args) {
-//		UserDAO s = new UserDAO();
-//		AccountDAO a = new AccountDAO();
-//		Information i = s.findUserInfo();
-//		i.setState("NY");
-//		System.out.println(s.updateUserInfo(i));
-//			
-//		List<Customer> c = a.findEApprovedAccts("Steve","Jacobs");
-//		for(Customer temp : c) {
-//			System.out.println(temp);
-//		}
+
 		Scanner inputs = new Scanner(System.in);
 		
-		System.out.println("Welcome 2 da bank");
+		System.out.println("Welcome to Not Wells Fargo™");
 		System.out.println("+-------------------------------------+");
 		
 		while(true) {

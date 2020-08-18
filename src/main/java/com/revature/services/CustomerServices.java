@@ -1,11 +1,3 @@
-/**
- *  to do:
- *  	transfer
- *  	apply for joint account
- *  	update user information
- */
-
-
 package com.revature.services;
 
 import java.util.List;
@@ -24,39 +16,29 @@ public class CustomerServices{
 	Scanner inputs = new Scanner(System.in);
 	private UserDAO uDAO = new UserDAO();
 	private AccountDAO aDAO = new AccountDAO();
-	private BasicServices services = new BasicServices();
+	private BasicServices service = new BasicServices();
 	
 	private Customer client = new Customer();
 	
 	public CustomerServices() {
 		System.out.println("Welcome returning customer!");
-		login();
+		signIn();
 	}
 	
-	private void login() {
+	private void signIn() {
 		System.out.println("Enter your username: ");
 		String username = inputs.nextLine();
 		
 		System.out.println("\nEnter your password: ");
 		String password = inputs.nextLine();
 		
-		User temp = new User();
-		try {
-			temp = uDAO.findUser(username);
-	
-			if(temp.getPassword().equals(password) && temp.getType() == 2) {
-				client.setPerson(temp);
-				client.setAccounts(aDAO.findUserAccounts(temp.getUserID()));	
-				showMenu();
-			}
-			else {
-				System.out.println("Invalid login.");
-			}
+		client.setPerson(service.login(2,username,password));
+		if(client.getPerson() != null) {
+			client.setAccounts(aDAO.findUserAccounts(client.getPerson().getUserID()));
+		}
+
+		showMenu();
 		
-		}
-		catch(NullPointerException e) {
-			System.out.println("That is not a valid login.");
-		}
 	}
 
 	private void showMenu() { 
@@ -154,8 +136,9 @@ public class CustomerServices{
 		System.out.println("How much would you like to "+transaction+"?\n");
 		double amnt = inputs.nextDouble();
 		
-		if(services.changeBalance(withdraw,acctChanged,amnt)) {
-			// log
+		if(service.changeBalance(withdraw,acctChanged,amnt)) {
+			log.info("user " + transaction + " account ID:" + acctChanged.getAccountID() +
+					" amount: " + amnt);
 			
 			System.out.println("Your new balance is: " + acctChanged.getBalance());
 		}
@@ -199,6 +182,8 @@ public class CustomerServices{
 		
 		if(aDAO.transferMoney(from,to,amnt)) {
 			System.out.println("Transfer successful! Current balance" + (from.getBalance() - amnt));
+			log.info("transfer occured from #" + from.getAccountID() + " to #" + to.getAccountID()
+					+ " amount: " + amnt);
 		}
 	
 		
@@ -208,6 +193,15 @@ public class CustomerServices{
 	
 	private void applyForJointAccount() {
 		
+		System.out.println("Enter the account number for the joint account: ");
+		int joint = inputs.nextInt();
+		
+		int userID = client.getPerson().getUserID();
+		
+		if(aDAO.addJointAccount(joint,userID)) {
+			System.out.println("Joint account opened.");
+			log.info("joint acccount opened #" + joint + " client: " + userID);
+		}
 	}
 	
 	

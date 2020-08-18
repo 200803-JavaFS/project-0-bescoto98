@@ -62,7 +62,7 @@ public class AdminServices {
 			
 			int answer = inputs.nextInt();
 			
-			switch (answer) {
+			switch (answer) { // add find subgroup function ?
 				case 1:
 					showInfo();
 					break;
@@ -111,12 +111,12 @@ public class AdminServices {
 		if(aDAO.updateAccount(a)) {
 			System.out.println("Account successfully closed.");
 			System.out.println(a);
-			//log
+			log.info("Account closed:" + a);
 		}
 		else
 		{
 			System.out.println("There was an error processing this request.");
-			//log
+			log.error("Unable to close account" + a);
 		}
 	
 		
@@ -146,7 +146,7 @@ public class AdminServices {
 		
 		if(aDAO.transferMoney(a,b,amnt)) {
 			System.out.println("Transaction successful.");
-			// log
+			log.info("amount transfered $" + amnt + " from #" + a.getAccountID() + " to #" + b.getAccountID());
 		}
 		else {
 			System.out.println("There was an error with this transaction, try again later.");
@@ -165,7 +165,7 @@ public class AdminServices {
 		double amnt = inputs.nextDouble();
 		
 		if(service.changeBalance(b,a,amnt)) {
-			//log
+			log.info("balance changed withdraw " + b + " for $" + amnt + " for #" + id);
 		}
 		else {
 			System.out.println("There was an error. Please try again later.");

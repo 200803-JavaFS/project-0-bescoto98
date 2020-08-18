@@ -1,9 +1,3 @@
-/**
- * to do:
- * 	return accounts open by specific employee
- * 	return pending accounts
- */
-
 package com.revature.dao;
 
 import java.util.List;
@@ -159,14 +153,6 @@ public class AccountDAO implements IAccountDAO {
 	}
 
 	@Override
-	public boolean closeAccount(Account a) {
-		
-		a.setStatus("Closed");
-		
-		return updateAccount(a);
-	}
-
-	@Override
 	public boolean updateAccount(Account a) {
 		
 		try(Connection conn = ConnectionUtility.getConnection()){
@@ -294,7 +280,6 @@ public class AccountDAO implements IAccountDAO {
 		try(Connection conn = ConnectionUtility.getConnection()){
 			
 			List<Customer> employeeCustomers = new ArrayList<>();
-//			String sql = "select * from accounts where approved_by="+fn.concat(" "+ln)+";";
 			
 			String sql = "select first_name,last_name,username,a_id,balance,a_type,status,created_on "
 					+ "from acctxref left join users on users.u_id = acctxref.user_id "

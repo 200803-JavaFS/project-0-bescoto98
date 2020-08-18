@@ -128,7 +128,6 @@ public class CustomerCreation {
 		Account a = new Account();
 		a.setBalance(0.0);
 		a.setStatus("Pending");
-		//created on
 		
 		System.out.println("Would you like to make a Checking account or Savings account?\n");
 		
