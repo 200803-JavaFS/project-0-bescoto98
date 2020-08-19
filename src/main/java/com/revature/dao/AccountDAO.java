@@ -281,7 +281,7 @@ public class AccountDAO implements IAccountDAO {
 			
 			List<Customer> employeeCustomers = new ArrayList<>();
 			
-			String sql = "select u_id,first_name,last_name,username,a_id,balance,a_type,status,created_on "
+			String sql = "select u_id,first_name,last_name,username,a_id,balance,a_type,status,created_on,approved_by "
 					+ "from acctxref left join users on users.u_id = acctxref.user_id "
 					+ "left join accounts on accounts.a_id = acctxref.account_id "
 					+ "where approved_by =?;";
@@ -311,6 +311,7 @@ public class AccountDAO implements IAccountDAO {
 				temp.setType(result.getString("a_type"));
 				temp.setStatus(result.getString("status"));
 				temp.setCreatedOn(result.getString("created_on"));
+				temp.setApprovedBy(result.getString("approved_by"));
 				
 				List<Account> s = new ArrayList<>();
 				s.add(temp);

@@ -63,3 +63,4 @@ approved: true
 2020-08-18 15:01:42 INFO  Driver:174 - balance changed withdrawal of amount $10.0 for accountID: 1 by 5
 2020-08-18 15:02:59 INFO  Driver:177 - balance changed deposit of amount $600.0 for accountID: 12 by 5
 2020-08-18 15:03:41 INFO  Driver:153 - amount transfered $500.0 from account: 1 to account: 12 completed by userID: 5
+2020-08-18 18:31:09 INFO  Driver:222 - transfer occured from account: 10 to account: 1 amount: 1000.0 by userID:8
