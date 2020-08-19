@@ -105,6 +105,11 @@ public class BasicServices {
 		
 		double curr = a.getBalance();
 		
+		if(amnt < 0) {
+			System.out.println("Invalid amount entered");
+			return false;
+		}
+		
 		if(withdraw) {
 			if(amnt > curr) {
 				System.out.println("There is not enough money for this transaction.");

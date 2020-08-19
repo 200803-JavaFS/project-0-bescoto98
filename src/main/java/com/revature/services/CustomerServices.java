@@ -212,6 +212,11 @@ public class CustomerServices{
 			+ " to Account #" + to.getAccountID());
 		double amnt = inputs.nextDouble();
 	
+		if(amnt < 0) {
+			System.out.println("Invalid amount entered.");
+			return;
+		}
+
 		if(amnt > from.getBalance()) {
 			System.out.println("There is not enough money for this transaction.");
 			return;

@@ -136,6 +136,11 @@ public class AdminServices {
 		System.out.println("Enter amount: ");
 		double amnt = inputs.nextDouble();
 		
+		if(amnt < 0) {
+			System.out.println("Invalid amount entered");
+			return;
+		}
+		
 		Account a = aDAO.findByAcctID(fromID);
 		Account b = aDAO.findByAcctID(toID);
 		if(a.getBalance() < amnt) {
